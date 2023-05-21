@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="<%= assetPath('css/home.css') %>">
+
+<div id="home-container">
+    <section id="user-nav">
+        <h4>User</h4>
+        <% if(locals.user) { %>
+            <% if(user.avatar) { %>
+                <img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
+            <% } %>
+            <p>
+                <a href="/users/profile/<%= user.id %>"><%= user.name %></a>
+            </p>
+        <% } %>
+
+
+
+        <section id="user-friends">
+            <h4>Friends</h4>
+            <% for(u of all_users) { %>
+                <p style="display: flex; align-items: center;">
+                    <% if(u.avatar) { %>
+                      <img style="height: 30px; width: 30px; border-radius: 50%;" src="<%= u.avatar %>" alt="<%= u.name %>" width="100">
+                    <% } %>
+                    <button><a href="/users/profile/<%= u.id %>" style="margin-left: 5px;"><%= u.name %></a>
+                    </button>
+                    </p>
+                                 
+            <% } %>
+        </section>
+    </section>
+
+    <section id="feed-posts">
+        <h4>Posts</h4>
+        <% if(locals.user) {%>
+        <form action="/posts/create" id="new-post-form" method="POST">
+            <textarea style="width: 100%" name="content" cols="10" rows="4" placeholder="What's on your mind, <%= locals.user.name%>?" required></textarea>
+            <input style = " color:white; border: none; height: 2rem ; border-radius: 3px; width:100%; background-color: #0D88F0;" type="submit" value="Post">
+        </form>
+        <% } %>
+    
+        <div id="posts-list-container">
+            <ul>
+                <% for(post of posts) { %>
+                <%- include('_post') -%>
+                <% } %>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- <section id="user-friends">
+        <h4>Friends</h4>
+        <% for(u of all_users) { %>
+            <p>
+                <% if(u.avatar) { %>
+                    <img style="height:30px; width:30px; border-radius:50%;" src="<%= u.avatar %>" alt="<%= u.name %>" width="100">
+                <% } %>
+                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            </p>
+        <% } %>
+    </section> -->
+    <%- include('_chat_box') -%>
+</div>
+<script src="<%= assetPath('js/home_post_comments.js') %>"></script>
+<script src="<%= assetPath('js/home_post.js') %>"></script>
+<script src="<%= assetPath('js/toggle_likes.js') %>"></script>
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script src="<%= assetPath('js/chat_engine.js') %>"></script>
+<% if(locals.user) { %>
+<script>
+    new ChatEngine('user-chat-box', '<%= locals.user.email %>')
+</script>
+<% } %>

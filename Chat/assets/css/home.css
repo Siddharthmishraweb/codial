@@ -1,0 +1,25 @@
+#home-container {
+  display: flex; }
+  #home-container #user-nav {
+    width: 20%;
+    padding: 10px;
+    border-right: 1px solid lightgrey; }
+  #home-container #feed-posts {
+    width: 60%;
+    padding: 10px; }
+  #home-container #user-friends {
+    display: flex;
+    width: 20%;
+    padding: 10px;
+    border-left: 1px solid lightgrey;
+    align-content: stretch;
+    flex-direction: column;
+    justify-content: space-evenly;
+   }
+
+
+#user-nav > img{
+  height: 36px;
+  width: 36px;
+  border-radius: 10px;
+}
